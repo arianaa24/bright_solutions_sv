@@ -111,7 +111,7 @@
                           <b>MEMO:</b>
                       </div>
                       <div style="font-size: 110%;position: absolute; top: 32cm; left: 22cm; width: 7cm; border-bottom: black 2px solid">
-                          <span t-field="o.ref"/>
+                          <span t-field="o.payment_reference"/>
                       </div>
                       <div style="position: absolute; top: 20.5cm; left: 3cm; font-size: 110%">
                           <table style="border:2px solid black" class="table table-sm table-borderless">
