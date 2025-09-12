@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="bright_solutions_view_order_form" model="ir.ui.view">
+            <field name="name">bright.solutions.sale.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <header position="inside">
+                    <button string="Calcular monto ejecutado" name="btn_calcular_monto_ejecutado" type="object" class="oe_highlight"/>
+                </header>
+                <field name="payment_term_id" position="after">
+                    <field name="margen_total" widget="percentage" readonly="1" force_save="1"/>
+                    <field name="margen_final" readonly="1" force_save="1"/>
+                </field>
+                <xpath expr="//field[@name='order_line']/list/field[@name='price_unit']" position="before">
+                    <field name="dias"/>
+                    <field name="precio_unitario_dias"/>
+                </xpath>
+                <xpath expr="//field[@name='order_line']/list/field[@name='tax_id']" position="before">
+                    <field name="costo_total" readonly="1" force_save="1"/>
+                </xpath>
+                <xpath expr="//field[@name='order_line']/list/field[@name='price_subtotal']" position="after">
+                    <field name="vc" readonly="1" force_save="1"/>
+                    <field name="margen" widget="percentage" readonly="1" force_save="1"/>
+                    <field name="monto_ejecutado" readonly="1" force_save="1"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

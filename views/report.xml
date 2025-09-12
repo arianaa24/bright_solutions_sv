@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="bright_solutions_account_payment1" model="ir.actions.report">
+            <field name="name">BI CONTINUO Q</field>
+            <field name="model">account.payment</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">bright_solutions_sv.reporte_account_payment1</field>
+            <field name="report_file">bright_solutions_sv.reporte_account_payment1</field>
+            <field name="binding_model_id" ref="account.model_account_payment"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="bright_solutions_account_payment2" model="ir.actions.report">
+            <field name="name">BI $</field>
+            <field name="model">account.payment</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">bright_solutions_sv.reporte_account_payment2</field>
+            <field name="report_file">bright_solutions_sv.reporte_account_payment2</field>
+            <field name="binding_model_id" ref="account.model_account_payment"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="bright_solutions_account_payment3" model="ir.actions.report">
+            <field name="name">BAC $</field>
+            <field name="model">account.payment</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">bright_solutions_sv.reporte_account_payment3</field>
+            <field name="report_file">bright_solutions_sv.reporte_account_payment3</field>
+            <field name="binding_model_id" ref="account.model_account_payment"/>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+</odoo>
