@@ -14,7 +14,7 @@
     'category': 'Uncategorized',
     'version': '1.1',
 
-    'depends': ['sale', 'l10n_gt_extra'],
+    'depends': ['sale', 'l10n_sv'],
     
     'data': [
         'views/sale_order_view.xml',

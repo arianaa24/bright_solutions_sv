@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import api, models
-from odoo.addons.l10n_gt_extra import a_letras
+from odoo.addons.l10n_sv import a_letras
 
 class ReportAbstractPayment(models.AbstractModel):
     _name = 'bright_solutions_sv.abstract.reporte_account_payment'

@@ -23,9 +23,6 @@
                       <div style="font-size: 110%; text-transform: uppercase; position: absolute; top: 4.9cm; left: 2.7cm; width: 20cm">
                           <span t-esc="a_letras(o.amount)"/>
                       </div>
-                      <div t-if="o.no_negociable == True" style="font-size: 130%; position: absolute; top: 7cm; left: 5cm; font-weight: bold">
-                          <span>NO  NEGOCIABLE</span>
-                      </div>
 
 
                         <div class="izquierda" style="position: absolute; top: 12.6cm; left: 12cm">
@@ -67,12 +64,7 @@
                           <b>Dolares</b>
                       </div>
                       
-                      <div style="font-size: 110%; position: absolute; top: 26cm; left: 3cm">
-                           <b>DESCRICION:</b>
-                      </div>
-                       <div style="font-size: 110%; position: absolute; top: 27cm; left: 3cm; width: 26.8cm; border:2px solid black">
-                          <span t-esc="o.descripcion"/>
-                      </div>
+                      
                       
                       
                       <div style="font-size: 110%; position: absolute; top: 30cm; left: 3cm; width: 4cm">
