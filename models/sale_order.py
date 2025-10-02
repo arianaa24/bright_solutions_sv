@@ -4,16 +4,17 @@ import logging
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
     
-    margen_total = fields.Float(string="Margen Total %")
-    margen_final = fields.Float(string="Margen Final")
+    margen_total = fields.Float(string="Margen Total %", compute="_compute_margenes", store=True)
+    margen_final = fields.Float(string="Margen Final", compute="_compute_margenes", store=True)
 
-    @api.onchange("order_line")
-    def onchange_margen_total(self):
-        total_vc = sum(line.vc for line in self.order_line)
-        total_price_subtotal = sum(line.price_subtotal for line in self.order_line)
-        total_monto_ejecutado = sum(line.monto_ejecutado for line in self.order_line)
-        self.margen_total = total_vc / total_price_subtotal if total_price_subtotal != 0 else 0
-        self.margen_final = total_price_subtotal - total_monto_ejecutado
+    @api.depends("order_line.vc", "order_line.price_subtotal", "order_line.monto_ejecutado")
+    def _compute_margenes(self):
+        for order in self:
+            total_vc = sum(line.vc for line in order.order_line)
+            total_price_subtotal = sum(line.price_subtotal for line in order.order_line)
+            total_monto_ejecutado = sum(line.monto_ejecutado for line in order.order_line)
+            order.margen_total = total_vc / total_price_subtotal if total_price_subtotal != 0 else 0
+            order.margen_final = total_price_subtotal - total_monto_ejecutado
     
     def btn_calcular_monto_ejecutado(self):
         for so_line in self.order_line:
