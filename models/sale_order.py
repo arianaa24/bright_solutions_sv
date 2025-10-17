@@ -5,7 +5,11 @@ class SaleOrder(models.Model):
     _inherit = 'sale.order'
     
     margen_total = fields.Float(string="Margen Total %", compute="_compute_margenes", store=True)
-    margen_final = fields.Float(string="Margen Final", compute="_compute_margenes", store=True)
+    margen_final = fields.Float(string="Margen Final %", compute="_compute_margenes", store=True)
+    porcentaje_administrativo = fields.Float(string="Porcentaje Administrativo %", related='sale_order_template_id.porcentaje_administrativo', store=True)
+    monto_administrativo = fields.Float(string="Monto Administrativo")
+    monto_total = fields.Float(string="Monto Total")
+    monto_final = fields.Float(string="Monto Final")
 
     @api.depends("order_line.vc", "order_line.price_subtotal", "order_line.monto_ejecutado")
     def _compute_margenes(self):
@@ -13,8 +17,12 @@ class SaleOrder(models.Model):
             total_vc = sum(line.vc for line in order.order_line)
             total_price_subtotal = sum(line.price_subtotal for line in order.order_line)
             total_monto_ejecutado = sum(line.monto_ejecutado for line in order.order_line)
-            order.margen_total = total_vc / total_price_subtotal if total_price_subtotal != 0 else 0
-            order.margen_final = total_price_subtotal - total_monto_ejecutado
+            order.margen_total = (total_vc / total_price_subtotal) - order.porcentaje_administrativo if total_price_subtotal != 0 else 0
+            margen_final = total_price_subtotal - total_monto_ejecutado
+            order.margen_final = (margen_final / total_price_subtotal) - order.porcentaje_administrativo if total_price_subtotal != 0 else 0
+            order.monto_administrativo = total_price_subtotal * order.porcentaje_administrativo
+            order.monto_total = total_price_subtotal * order.margen_total
+            order.monto_final = total_price_subtotal * order.margen_final
     
     def btn_calcular_monto_ejecutado(self):
         for so_line in self.order_line:
@@ -30,6 +38,7 @@ class SaleOrderLine(models.Model):
     vc = fields.Monetary(string="VC")
     margen = fields.Float(string="Margen %")
     monto_ejecutado = fields.Float(string="Monto Ejecutado")
+    costo_total_recuperacion = fields.Monetary(string="Costo total de recuperación")
 
     @api.onchange("product_id")
     def _onchange_producto(self):
@@ -43,6 +52,7 @@ class SaleOrderLine(models.Model):
     def _onchange_product_brighsolutions(self):
         for record in self:
             record.costo_total = record.product_uom_qty * record.dias * record.x_studio_costo
-            record.vc = record.price_subtotal - record.costo_total
+            record.costo_total_recuperacion = record.product_uom_qty * record.dias * record.product_id.costo_recuperacion
+            record.vc = record.price_subtotal - record.costo_total - record.costo_total_recuperacion
             if record.price_subtotal:
                 record.margen = record.vc / record.price_subtotal
